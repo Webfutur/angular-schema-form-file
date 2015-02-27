@@ -1,0 +1,33 @@
+{
+    "schema": {
+        "type": "object",
+        "title": "Comment",
+        "properties": {
+            "name": {
+                "title": "Name",
+                "type": "string"
+            },
+            "cover": {
+                "title": "Your cover",
+                "type": "string"
+            }
+        },
+        "required": [
+          "name",
+          "cover"
+        ]
+      },
+    "form": [
+        "name",
+        {
+          "key": "cover",
+          "title": "Cover",
+          "type": "file"
+        },
+        {
+          "type": "submit",
+          "style": "btn-info",
+          "title": "OK"
+        }
+      ]
+}

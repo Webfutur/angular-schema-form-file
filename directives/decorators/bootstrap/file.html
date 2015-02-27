@@ -1,0 +1,44 @@
+<div class="form-group" ng-class="{'has-error': hasError()}">
+    <label class="control-label" ng-show="showTitle()">{{form.title}}</label>
+
+        <div ng-schema-file ng-model="$$value$$">
+   
+            <div class="btn btn-default" ng-model="files" ng-file-select ng-file-change="upload($files)" ng-multiple="true">Fichiers</div>
+           
+            <ul class="media-list" ng-show="files.length > 0">
+                <li class="media" ng-repeat="f in files">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object" ng-src="{{f.dataUrl}}" alt="" style="max-width: 100px;">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        {{f.name}}
+                    </div>
+                    
+                    <div class="progress" style="height: 20px;">
+                        <div class="progress-bar progress-bar-success"
+                            role="progressbar"
+                            aria-valuenow="{{ f.filesProgress }}"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            style="width: {{ f.filesProgress }}%">
+                            {{ f.filesProgress }}% Complete (success)
+                        </div>
+                    </div>
+                    
+                </li>
+            </ul>
+            
+            <input ng-show="form.key"
+                   style="background-color: white"
+                   type="text"
+                   class="form-control"
+                   schema-validate="form"
+                   ng-model="$$value$$"
+                   format="form.format" />
+            
+        </div>
+
+    <span class="help-block">{{ (hasError() && errorMessage(schemaError())) || form.description}}</span>
+</div>

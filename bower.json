@@ -1,0 +1,12 @@
+{
+  "name": "leclub-ajf-upload",
+  "description": "Upload file type for Angular JSON form",
+  "version": "0.0.1",
+  "license": "MIT",
+  "private": true,
+  "keywords": ["angular-schema-form-add-on"],
+  "dependencies": {
+    "angular": "*",
+    "angular-schema-form": "*"
+  }
+}

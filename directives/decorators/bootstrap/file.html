@@ -5,7 +5,7 @@
     
             
             
-            <div class="btn btn-default" ng-model="files" ng-file-select ng-file-change="upload($files)" ng-multiple="true">Fichiers</div>
+            <div class="btn btn-default" ng-model="files" ng-file-select ng-file-change="upload($files)" ng-multiple="form.files_max_qty > 1">Fichiers</div>
            
             <ul class="media-list" ng-show="files.length > 0">
                 <li class="media" ng-repeat="f in files">
@@ -48,7 +48,6 @@
                    format="form.format" />
             
             <span class="help-block">{{ (hasError() && errorMessage(schemaError())) || form.description}}</span>
-
             
         </div>
 

@@ -25,6 +25,9 @@ angular.module('schemaForm').config(
                 if (schema.max_size !== undefined ) {
                     f.max_size = schema.max_size;
                 }
+                if (schema.files_max_qty !== undefined ) {
+                    f.files_max_qty = schema.files_max_qty;
+                }
                 options.lookup[sfPathProvider.stringify(options.path)] = f;
                 return f;
             }
@@ -44,7 +47,6 @@ ngSchemaFormFileType.directive('ngSchemaFile', function($upload, $timeout) {
         link: function(scope, element, attrs, ngModel) {
             
             scope.fileReaderSupported = window.FileReader != null && (window.FileAPI == null || FileAPI.html5 != false);
-            
             
             scope.contains = function(array, obj) {
                 for (var i = 0; i < array.length; i++) {
@@ -76,18 +78,23 @@ ngSchemaFormFileType.directive('ngSchemaFile', function($upload, $timeout) {
             
             scope.upload = function (files) {
                
-                // scope.displayThumbs();
                 
                 ngModel.$setViewValue('');                
                 
-                if (files && files.length) {
+                if (files && files.length) {       
+                    
+                    if(scope.form.files_max_qty !== undefined && files.length > scope.form.files_max_qty) {
+                        scope.files = scope.files.slice(0, scope.form.files_max_qty);
+                    }                    
                     
                     for (var i = 0; i < scope.files.length; i++) {                
-                        var file = scope.files[i];              
+                        var file = scope.files[i];      
 
                         if(!scope.validateExtension(file) || !scope.validateMaxSize(file)) {
                             continue;
                         }
+                        
+
                         
                         scope.generateThumb(file); 
 

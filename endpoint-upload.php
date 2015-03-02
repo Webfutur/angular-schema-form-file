@@ -2,6 +2,7 @@
 
 $file = $_FILES['file'];
 
+
 $token = md5_file($file['tmp_name']);
 
 $dest = 'uploads/' . $token;

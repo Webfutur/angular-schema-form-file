@@ -82,7 +82,6 @@ ngSchemaFormFileType.directive('ngSchemaFile', function($upload, $timeout) {
             scope.upload = function (files) {
                 
                ngModel.$setViewValue('');   
-               var tokens = [];
 
                 if (files && files.length) {       
                     
@@ -104,15 +103,23 @@ ngSchemaFormFileType.directive('ngSchemaFile', function($upload, $timeout) {
                         $upload.upload({
                             url: scope.form.endpoint,
                             fields: {'username': scope.username},
-                            file: file,
-                            method: 'GET'
+                            file: file
                         }).progress(function (evt) {
                             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                             // console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
                             evt.config.file.filesProgress = progressPercentage;
-                        }).success(function (data, status, headers, config) {    
-                            tokens.push(data.token);                            
-                            ngModel.$setViewValue(JSON.stringify(tokens));
+                        }).success(function (data, status, headers, config) {                               
+                            
+                            var currentViewValue = ngModel.$viewValue;                            
+                            if(currentViewValue !== '') {
+                                currentViewValue = currentViewValue.split('/');
+                                currentViewValue.push(data.token);
+                                currentViewValue = currentViewValue.join('/');
+                                ngModel.$setViewValue(currentViewValue);
+                            } else {
+                                ngModel.$setViewValue(data.token);
+                            } 
+ 
                         });
                     }
 

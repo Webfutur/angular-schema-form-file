@@ -13,7 +13,8 @@
                 "format": "file",
                 "allowed_extensions": ["jpg", "jpeg", "png"],
                 "max_size": "900000",
-                "files_max_qty": "4"
+                "files_max_qty": "4",
+                "endpoint": "endpoint-upload.php"
             }
         },
         "required": [

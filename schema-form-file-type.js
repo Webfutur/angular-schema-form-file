@@ -28,6 +28,9 @@ angular.module('schemaForm').config(
                 if (schema.files_max_qty !== undefined ) {
                     f.files_max_qty = schema.files_max_qty;
                 }
+                if (schema.endpoint !== undefined ) {
+                    f.endpoint = schema.endpoint;
+                }
                 options.lookup[sfPathProvider.stringify(options.path)] = f;
                 return f;
             }
@@ -101,7 +104,7 @@ ngSchemaFormFileType.directive('ngSchemaFile', function($upload, $timeout) {
                         scope.generateThumb(file); 
 
                         $upload.upload({
-                            url: 'endpoint-upload.php',
+                            url: scope.form.endpoint,
                             fields: {'username': scope.username},
                             file: file
                         }).progress(function (evt) {

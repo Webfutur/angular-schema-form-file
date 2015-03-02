@@ -118,15 +118,6 @@ ngSchemaFormFileType.directive('ngSchemaFile', function($upload, $timeout) {
                 }
             };
 
-            scope.displayThumbs = function() {
-                if (scope.files && scope.files.length) {
-                    for (var i = 0; i < scope.files.length; i++) {   
-                        var file = scope.files[i];
-                        scope.generateThumb(file);                
-                    }
-                }
-            };
-
             scope.generateThumb = function(file) {
                 if (file != null) {
                     if (scope.fileReaderSupported && file.type.indexOf('image') > -1) {

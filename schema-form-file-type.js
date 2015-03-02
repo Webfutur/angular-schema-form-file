@@ -78,9 +78,7 @@ ngSchemaFormFileType.directive('ngSchemaFile', function($upload, $timeout) {
                 file.invalidSize = false;
                 return true;
             };
-            
-            
-            
+
             scope.upload = function (files) {
                 
                ngModel.$setViewValue('');   
@@ -106,7 +104,8 @@ ngSchemaFormFileType.directive('ngSchemaFile', function($upload, $timeout) {
                         $upload.upload({
                             url: scope.form.endpoint,
                             fields: {'username': scope.username},
-                            file: file
+                            file: file,
+                            method: 'GET'
                         }).progress(function (evt) {
                             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                             // console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);

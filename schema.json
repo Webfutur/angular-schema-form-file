@@ -12,8 +12,8 @@
                 "type": "string",
                 "format": "file",
                 "allowed_extensions": ["jpg", "jpeg", "png"],
-                "max_size": "400000",
-                "files_max_qty": "1"
+                "max_size": "900000",
+                "files_max_qty": "4"
             }
         },
         "required": [

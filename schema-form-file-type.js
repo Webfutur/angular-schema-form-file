@@ -76,13 +76,16 @@ ngSchemaFormFileType.directive('ngSchemaFile', function($upload, $timeout) {
                 return true;
             };
             
+            
+            
             scope.upload = function (files) {
-               
                 
-                ngModel.$setViewValue('');                
-                
+               ngModel.$setViewValue('');   
+               var tokens = [];
+
                 if (files && files.length) {       
                     
+                    // Files quantity validation
                     if(scope.form.files_max_qty !== undefined && files.length > scope.form.files_max_qty) {
                         scope.files = scope.files.slice(0, scope.form.files_max_qty);
                     }                    
@@ -90,12 +93,11 @@ ngSchemaFormFileType.directive('ngSchemaFile', function($upload, $timeout) {
                     for (var i = 0; i < scope.files.length; i++) {                
                         var file = scope.files[i];      
 
+                        // Extension and size validations
                         if(!scope.validateExtension(file) || !scope.validateMaxSize(file)) {
                             continue;
                         }
-                        
 
-                        
                         scope.generateThumb(file); 
 
                         $upload.upload({
@@ -107,19 +109,8 @@ ngSchemaFormFileType.directive('ngSchemaFile', function($upload, $timeout) {
                             // console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
                             evt.config.file.filesProgress = progressPercentage;
                         }).success(function (data, status, headers, config) {    
-                            
-                            // TODO : use an array instead of a string
-                            var currentViewValue = ngModel.$viewValue;                            
-                            if(currentViewValue !== '') {
-                                currentViewValue = currentViewValue.split('/');
-                                currentViewValue.push(data.token);
-                                currentViewValue = currentViewValue.join('/');
-                                ngModel.$setViewValue(currentViewValue);
-                            } else {
-                                ngModel.$setViewValue(data.token);
-                            } 
-                            
-                            
+                            tokens.push(data.token);                            
+                            ngModel.$setViewValue(JSON.stringify(tokens));
                         });
                     }
 

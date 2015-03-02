@@ -1,8 +1,10 @@
 <div class="form-group" ng-class="{'has-error': hasError()}">
     <label class="control-label" ng-show="showTitle()">{{form.title}}</label>
 
-        <div ng-schema-file ng-model="$$value$$">
-   
+        <div ng-schema-file ng-model="$$value$$" schema-validate="form">
+    
+            
+            
             <div class="btn btn-default" ng-model="files" ng-file-select ng-file-change="upload($files)" ng-multiple="true">Fichiers</div>
            
             <ul class="media-list" ng-show="files.length > 0">
@@ -14,6 +16,12 @@
                     </div>
                     <div class="media-body">
                         {{f.name}}
+                        <div class="help-block has-error" ng-if="f.invalidExtension" style="color: red;">
+                            Error : non valid extension
+                        </div>
+                        <div class="help-block has-error" ng-if="f.invalidSize" style="color: red;">
+                            Error : too large file
+                        </div>
                     </div>
                     
                     <div class="progress" style="height: 20px;">
@@ -30,15 +38,19 @@
                 </li>
             </ul>
             
+            
+            
             <input ng-show="form.key"
                    style="background-color: white"
                    type="text"
-                   class="form-control"
-                   schema-validate="form"
+                   class="form-control"                   
                    ng-model="$$value$$"
                    format="form.format" />
             
+            <span class="help-block">{{ (hasError() && errorMessage(schemaError())) || form.description}}</span>
+
+            
         </div>
 
-    <span class="help-block">{{ (hasError() && errorMessage(schemaError())) || form.description}}</span>
+    
 </div>

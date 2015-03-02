@@ -14,6 +14,18 @@ angular.module('schemaForm').config(
             'directives/decorators/bootstrap/file.html'
         );
 
+        var schemaFormatfile = function(name, schema, options) {
+            if (schema.type === 'string' && schema.format === 'file' ) {
+                var f = schemaFormProvider.stdFormObj(name, schema, options);
+                f.key = options.path;
+                f.type = 'file';
+                options.lookup[sfPathProvider.stringify(options.path)] = f;
+                return f;
+            }
+        };
+
+        schemaFormProvider.defaults.string.unshift(schemaFormatfile);
+
     }
 ]);
 

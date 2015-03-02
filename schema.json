@@ -9,7 +9,8 @@
             },
             "cover": {
                 "title": "Your cover",
-                "type": "string"
+                "type": "string",
+                "format": "file"
             }
         },
         "required": [
@@ -19,11 +20,7 @@
       },
     "form": [
         "name",
-        {
-          "key": "cover",
-          "title": "Cover",
-          "type": "file"
-        },
+        "cover",
         {
           "type": "submit",
           "style": "btn-info",

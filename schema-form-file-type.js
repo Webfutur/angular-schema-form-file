@@ -31,6 +31,11 @@ angular.module('schemaForm').config(
                 if (schema.endpoint !== undefined ) {
                     f.endpoint = schema.endpoint;
                 }
+                if (schema.button_label !== undefined ) {
+                    f.button_label = schema.button_label;
+                } else {
+                    f.button_label = 'Choose a file';
+                }
                 options.lookup[sfPathProvider.stringify(options.path)] = f;
                 return f;
             }

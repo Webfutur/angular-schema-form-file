@@ -14,7 +14,8 @@
                 "allowed_extensions": ["jpg", "jpeg", "png"],
                 "max_size": "900000",
                 "files_max_qty": "4",
-                "endpoint": "endpoint-upload.php"
+                "endpoint": "endpoint-upload.php",
+                "button_label": "Sélectionnez une image"
             }
         },
         "required": [

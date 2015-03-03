@@ -6,7 +6,7 @@
             
             
             <div class="btn btn-default" ng-model="files" ng-file-select ng-file-change="upload($files)" ng-multiple="form.files_max_qty > 1">
-                Sélectionnez des fichiers
+                {{ form.button_label }}
             </div>
            
             <ul class="media-list" ng-show="files.length > 0">

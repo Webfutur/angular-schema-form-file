@@ -6,7 +6,9 @@
   "private": true,
   "keywords": ["angular-schema-form-add-on"],
   "dependencies": {
+      
     "angular": "*",
-    "angular-schema-form": "*"
+    "angular-schema-form": "*",
+    "tv4" : "1.1.9"
   }
 }

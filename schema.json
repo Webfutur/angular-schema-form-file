@@ -1,35 +1,65 @@
 {
     "schema": {
         "type": "object",
-        "title": "Comment",
+        "title": "Album",
         "properties": {
-            "name": {
-                "title": "Name",
-                "type": "string"
-            },
-            "cover": {
-                "title": "Your cover",
-                "type": "string",
-                "format": "file",
-                "allowed_extensions": ["jpg", "jpeg", "png"],
-                "max_size": "900000",
-                "files_max_qty": "4",
-                "endpoint": "endpoint-upload.php",
-                "button_label": "Sélectionnez une image"
+            "images": {
+                "title": "Images",
+                "type" : "array",
+                "minItems": 1,
+                "maxItems": 2,
+                "items": {
+                    "title" : "image",
+                    "type" : "object",
+                    "properties": {
+                        "token" : {
+                            "title": "token",
+                            "type" : "string"
+                        },
+                        "extension" : {
+                            "title" : "Extension",
+                            "type" : "string",
+                            "allowed-extensions": ["jpg", "jpeg", "png"]
+                        },
+                        "size" : {
+                            "title" : "Size",
+                            "type" : "number",
+                            "max-size" : 338311
+                        }
+                    },
+                    "required" : [
+                        "token"
+                    ]
+                }
             }
         },
         "required": [
-          "name",
-          "cover"
+            "images"
         ]
       },
     "form": [
-        "name",
-        "cover",
+        {
+            "key" : "images",
+            "type" : "heys",
+            "items" : [
+                {
+                    "key" : "images[].token"
+                },
+                {
+                    "key" : "images[].extension"
+                },
+                {
+                    "key" : "images[].size"
+                }
+            ],
+            "required" : [
+                "token"
+            ]
+        },
         {
           "type": "submit",
           "style": "btn-info",
           "title": "OK"
         }
-      ]
+    ]
 }

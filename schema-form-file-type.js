@@ -30,8 +30,7 @@ angular.module('schemaForm').config(
 
 
 tv4.defineError('ALLOWED_EXTENSIONS_ERROR', 10000, 'Wrong file extension. Allowed extensions are {allowedExtensions}.');
-
-tv4.defineKeyword('allowed-extensions', function (data, value, schema) {        
+tv4.defineKeyword('allowed-extensions', function (data, value, schema) {     
     if(value == undefined || value == '') {
         return null;
     }        
@@ -41,20 +40,18 @@ tv4.defineKeyword('allowed-extensions', function (data, value, schema) {
             return null;
         }
     }
-    return {code: tv4.errorCodes.ALLOWED_EXTENSIONS_ERROR, message: {allowedExtensions: value}};         
+    return {code: tv4.errorCodes.ALLOWED_EXTENSIONS_ERROR, message: {allowedExtensions: value.join(', ')}};         
 });
 
 
 
 
 
-tv4.defineError('MAX_SIZE_ERROR', 10001, 'File {fileName} is too large. Maximum size allowed is {maxSize}.');
-
+tv4.defineError('MAX_SIZE_ERROR', 10001, 'This file is too large. Maximum size allowed is {maxSize}.');
 tv4.defineKeyword('max-size', function (data, value, schema) {        
     if(value == undefined || value == '') {
         return null;
-    } 
-    
+    }    
     if(data < value) {
         return null;
     } else {

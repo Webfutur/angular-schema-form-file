@@ -6,7 +6,7 @@
             "images": {
                 "title": "Images",
                 "type" : "array",
-                "minItems": 1,
+                "minItems": 2,
                 "maxItems": 2,
                 "items": {
                     "title" : "image",
@@ -31,18 +31,19 @@
                         "token"
                     ]
                 }
+            },
+            "yo" : {
+                "title" : "Yo",
+                "type" : "string"
             }
         },
         "required": [
-            "images"
+            "images",
+            "yo"
         ]
       },
     "form": [
-        {
-            "key" : "yo",
-            "type" : "string",
-            "title" : "Yo"
-        },
+        "yo",
         {
             "key" : "images",
             "type" : "files",
@@ -57,6 +58,7 @@
                     "key" : "images[].size"
                 }
             ],
+            "startEmpty" : true,
             "required" : [
                 "token"
             ]

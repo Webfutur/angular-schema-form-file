@@ -1,3 +1,11 @@
+<style type="text/css">
+    .file-objects .form-control-feedback,
+    .file-objects label,
+    .file-objects input {
+        display: none;
+    }
+</style>
+
 <div ng-schema-file ng-model="$$value$$" class="file-objects">
 
     <div sf-array="form"
@@ -11,7 +19,7 @@
             Fichiers
         </div>
 
-        <ol class="list-group" ng-model="modelArray" ui-sortable ng-if="files.length > 0">
+        <ol class="list-group" ng-model="modelArray" ui-sortable>
 
             <li class="list-group-item {{form.fieldHtmlClass}}"
                 ng-repeat="item in modelArray track by $index">

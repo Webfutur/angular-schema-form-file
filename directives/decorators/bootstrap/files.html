@@ -1,3 +1,4 @@
+
 <style type="text/css">
     .file-objects .form-control-feedback,
     .file-objects label,
@@ -5,6 +6,7 @@
         display: none;
     }
 </style>
+
 
 <div ng-schema-file ng-model="$$value$$" class="file-objects">
 
@@ -31,9 +33,24 @@
                       <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
                 </button>
 
-                <h4>
+                <div class="media-left">
+                    <img class="media-object" ng-src="{{files[$index].dataUrl}}" alt="" style="max-width: 100px;">
+                </div>
+                
+                <h5>
                     {{ files[$index].name }}
-                </h4>
+                </h5>
+                
+                <div class="progress" style="height: 20px;">
+                    <div class="progress-bar progress-bar-success"
+                        role="progressbar"
+                        aria-valuenow="{{ files[$index].filesProgress }}"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        style="width: {{ files[$index].filesProgress }}%">
+                        {{ files[$index].filesProgress }}% Complete (success)
+                    </div>
+                </div>
                 
               <sf-decorator ng-init="arrayIndex = $index" form="copyWithIndex($index)"></sf-decorator>
 

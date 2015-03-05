@@ -73,32 +73,77 @@ ngSchemaFormFileType.directive('ngSchemaFile', function($upload, $timeout) {
         
         link: function(scope, element, attrs, ngModel) {
             
-            
+            scope.fileReaderSupported = window.FileReader != null && (window.FileAPI == null || FileAPI.html5 != false);
             
             scope.upload = function (files) {
                 
                 var key = scope.form.key[0];
                 
                 scope.model[key] = [];
+                
+                var indexer = {index: 0};
               
-                for(var i = 0; i < files.length; i++) {
-                    
-                    var file = files[i];
-                    
+                for(var i = 0; i < files.length; i++) {                    
+                    var file = files[i];                    
+                    scope.generateThumb(file);                     
                     var extension = file.name.split('.').pop();
-                    
+                        
                     scope.model[key].push({
-                        token: 'token is coming',
+                        token: i,
                         extension: extension,
                         size: file.size
-                    });                    
+                    });
                     
+                    
+
+                    $upload.upload({
+                        url: 'http://angular.gp.leclub.iwf.com/angular-json-form-file-type/endpoint-upload.php',
+                        file: file,
+                        fields: {
+                            index: i
+                        }
+                    }).progress(function (evt) {
+                        var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                        // console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+                        evt.config.file.filesProgress = progressPercentage;
+                    }).success(function (data, status, headers, config) {    
+                            
+                        scope.model[key][data.index] = {
+                            token: data.token,
+                            extension: data.extension,
+                            size: data.size
+                        };                            
+                        
+                    });
+
                 }
+
               
                 console.log(files);
                 console.log(scope.model);
                 
             };
+            
+            
+            
+            
+            scope.generateThumb = function(file) {
+                if (file != null) {
+                    if (scope.fileReaderSupported && file.type.indexOf('image') > -1) {
+                        $timeout(function() {
+                            var fileReader = new FileReader();
+                            fileReader.readAsDataURL(file);
+                            fileReader.onload = function(e) {
+                                $timeout(function() {
+                                    file.dataUrl = e.target.result;
+                                });
+                            };
+                        });
+                    }
+                }
+            };
+            
+            
 
         }
 

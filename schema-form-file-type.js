@@ -80,9 +80,7 @@ ngSchemaFormFileType.directive('ngSchemaFile', function($upload, $timeout) {
                 var key = scope.form.key[0];
                 
                 scope.model[key] = [];
-                
-                var indexer = {index: 0};
-              
+                              
                 for(var i = 0; i < files.length; i++) {                    
                     var file = files[i];                    
                     scope.generateThumb(file);                     
@@ -93,8 +91,6 @@ ngSchemaFormFileType.directive('ngSchemaFile', function($upload, $timeout) {
                         extension: extension,
                         size: file.size
                     });
-                    
-                    
 
                     $upload.upload({
                         url: scope.form.endpoint,
@@ -112,15 +108,15 @@ ngSchemaFormFileType.directive('ngSchemaFile', function($upload, $timeout) {
                             token: data.token,
                             extension: data.extension,
                             size: data.size
-                        };                            
+                        };
                         
                     });
 
                 }
 
-              
-                console.log(files);
-                console.log(scope.model);
+                $timeout(function() {
+                    scope.$broadcast('schemaFormValidate');
+                }, 100);
                 
             };
             

@@ -17,9 +17,14 @@
         
         <h3 ng-show="form.title && form.notitle !== true">{{ form.title }}</h3>
 
-        <div class="btn btn-default" ng-model="files" ng-file-select ng-file-change="upload($files)" ng-multiple="true">
+        <div class="btn btn-default"
+             ng-model="files"
+             ng-file-select
+             ng-file-change="upload($files)"
+             ng-multiple="!(form.schema.minItems == 1 && form.schema.maxItems == 1)">
             Fichiers
         </div>
+        
 
         <ol class="list-group" ng-model="modelArray" ui-sortable>
 

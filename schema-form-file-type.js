@@ -97,7 +97,7 @@ ngSchemaFormFileType.directive('ngSchemaFile', function($upload, $timeout) {
                     
 
                     $upload.upload({
-                        url: 'http://angular.gp.leclub.iwf.com/angular-json-form-file-type/endpoint-upload.php',
+                        url: scope.form.endpoint,
                         file: file,
                         fields: {
                             index: i

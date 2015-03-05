@@ -17,20 +17,47 @@ angular.module('schemaForm').config(
             'directives/decorators/bootstrap/files.html'
         );
 
+        var schemaFormatFileType = function(name, schema, options) {
+            if (schema.type === 'array' && schema.format === 'files' ) {
+
+                var itemsDef = {
+                    "title" : "image",
+                    "type" : "object",
+                    "properties": {
+                        "token" : {
+                            "title": "token",
+                            "type" : "string"
+                        },
+                        "extension" : {
+                            "title" : "Extension",
+                            "type" : "string",
+                            "allowed_extensions": [""]
+                        },
+                        "size" : {
+                            "title" : "Size",
+                            "type" : "number",
+                            "max_size" : 10000000
+                        }
+                    }
+                };
+                
+                itemsDef.properties.extension.allowed_extensions = schema.allowed_extensions;
+                itemsDef.properties.size.max_size = schema.max_size;
+
+                schema.items = itemsDef;
+   
+            }
+        };
+
+        schemaFormProvider.defaults.array.unshift(schemaFormatFileType);
+
     }
 ]);
 
 
 
-
-
-
-
-
-
-
 tv4.defineError('ALLOWED_EXTENSIONS_ERROR', 10000, 'Wrong file extension. Allowed extensions are {allowedExtensions}.');
-tv4.defineKeyword('allowed-extensions', function (data, value, schema) {     
+tv4.defineKeyword('allowed_extensions', function (data, value, schema) {     
     if(value == undefined || value == '') {
         return null;
     }        
@@ -48,7 +75,7 @@ tv4.defineKeyword('allowed-extensions', function (data, value, schema) {
 
 
 tv4.defineError('MAX_SIZE_ERROR', 10001, 'This file is too large. Maximum size allowed is {maxSize}.');
-tv4.defineKeyword('max-size', function (data, value, schema) {        
+tv4.defineKeyword('max_size', function (data, value, schema) {        
     if(value == undefined || value == '') {
         return null;
     }    

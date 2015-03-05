@@ -6,31 +6,12 @@
             "images": {
                 "title": "Images",
                 "type" : "array",
+                "format" : "files",
                 "minItems": 1,
                 "maxItems": 2,
-                "items": {
-                    "title" : "image",
-                    "type" : "object",
-                    "properties": {
-                        "token" : {
-                            "title": "token",
-                            "type" : "string"
-                        },
-                        "extension" : {
-                            "title" : "Extension",
-                            "type" : "string",
-                            "allowed-extensions": ["jpg", "jpeg", "png"]
-                        },
-                        "size" : {
-                            "title" : "Size",
-                            "type" : "number",
-                            "max-size" : 338311
-                        }
-                    },
-                    "required" : [
-                        "token"
-                    ]
-                }
+                "allowed_extensions": ["jpg", "jpeg", "png"],
+                "max_size" : 338311,
+                "items": {}
             },
             "yo" : {
                 "title" : "Yo",

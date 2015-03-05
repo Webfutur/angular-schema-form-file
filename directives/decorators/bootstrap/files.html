@@ -1,0 +1,42 @@
+<div ng-schema-file ng-model="$$value$$" class="file-objects">
+
+    <div sf-array="form"
+         class="schema-form-array {{form.htmlClass}}"
+         ng-model="$$value$$"
+         ng-model-options="form.ngModelOptions">
+
+        <h3 ng-show="form.title && form.notitle !== true">{{ form.title }}</h3>
+
+        <div class="btn btn-default" ng-model="files" ng-file-select ng-file-change="upload($files)" ng-multiple="true">
+            Fichiers
+        </div>
+
+        <ol class="list-group" ng-model="modelArray" ui-sortable ng-if="files.length > 0">
+
+            <li class="list-group-item {{form.fieldHtmlClass}}"
+                ng-repeat="item in modelArray track by $index">
+
+                <button ng-hide="form.readonly"
+                      ng-click="deleteFromArray($index)"
+                      style="position: relative; z-index: 20;"
+                      type="button" class="close pull-right">
+                      <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                </button>
+
+                <h4>
+                    {{ files[$index].name }}
+                </h4>
+                
+              <sf-decorator ng-init="arrayIndex = $index" form="copyWithIndex($index)"></sf-decorator>
+
+            </li>
+      </ol>
+
+
+        <div class="help-block" style="color: #e74c3c;"
+             ng-show="(hasError() && errorMessage(schemaError())) || form.description"
+             ng-bind-html="(hasError() && errorMessage(schemaError())) || form.description"></div>
+
+    </div>
+
+</div>

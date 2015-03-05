@@ -13,8 +13,8 @@ angular.module('schemaForm').config(
 
         schemaFormDecoratorsProvider.addMapping(
             'bootstrapDecorator',
-            'heys',
-            'directives/decorators/bootstrap/heys.html'
+            'files',
+            'directives/decorators/bootstrap/files.html'
         );
 
     }
@@ -76,8 +76,6 @@ ngSchemaFormFileType.directive('ngSchemaFile', function($upload, $timeout) {
         
         link: function(scope, element, attrs, ngModel) {
             
-            
-
             
             scope.upload = function (files) {
                 

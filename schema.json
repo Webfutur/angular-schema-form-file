@@ -29,7 +29,8 @@
             "key" : "images",
             "type" : "files",
             "endpoint": "http://angular.gp.leclub.iwf.com/angular-json-form-file-type/endpoint-upload.php",
-            "startEmpty" : true
+            "startEmpty" : true,
+            "button_label" : "Vos images"
         },
         {
           "type": "submit",

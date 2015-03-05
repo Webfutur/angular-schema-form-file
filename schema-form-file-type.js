@@ -77,9 +77,12 @@ ngSchemaFormFileType.directive('ngSchemaFile', function($upload, $timeout) {
         link: function(scope, element, attrs, ngModel) {
             
             
+            
             scope.upload = function (files) {
                 
-                scope.model.images = [];
+                var key = scope.form.key[0];
+                
+                scope.model[key] = [];
               
                 for(var i = 0; i < files.length; i++) {
                     
@@ -87,16 +90,13 @@ ngSchemaFormFileType.directive('ngSchemaFile', function($upload, $timeout) {
                     
                     var extension = file.name.split('.').pop();
                     
-                    scope.model.images.push({
+                    scope.model[key].push({
                         token: 'token is coming',
                         extension: extension,
                         size: file.size
-                    });
-                    
-                    
+                    });                    
                     
                 }
-                
               
                 console.log(files);
                 console.log(scope.model);

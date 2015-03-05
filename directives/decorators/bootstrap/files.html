@@ -4,7 +4,7 @@
          class="schema-form-array {{form.htmlClass}}"
          ng-model="$$value$$"
          ng-model-options="form.ngModelOptions">
-
+        
         <h3 ng-show="form.title && form.notitle !== true">{{ form.title }}</h3>
 
         <div class="btn btn-default" ng-model="files" ng-file-select ng-file-change="upload($files)" ng-multiple="true">

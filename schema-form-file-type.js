@@ -17,9 +17,12 @@ angular.module('schemaForm').config(
             'directives/decorators/bootstrap/files.html'
         );
 
+
+        
         var schemaFormatFileType = function(name, schema, options) {
             if (schema.type === 'array' && schema.format === 'files' ) {
-
+                
+                
                 var itemsDef = {
                     "title" : "image",
                     "type" : "object",
@@ -50,7 +53,7 @@ angular.module('schemaForm').config(
         };
 
         schemaFormProvider.defaults.array.unshift(schemaFormatFileType);
-
+        
     }
 ]);
 
@@ -58,9 +61,9 @@ angular.module('schemaForm').config(
 
 tv4.defineError('ALLOWED_EXTENSIONS_ERROR', 10000, 'Wrong file extension. Allowed extensions are {allowedExtensions}.');
 tv4.defineKeyword('allowed_extensions', function (data, value, schema) {     
-    if(value == undefined || value == '') {
+    if(value == undefined || value == '' || typeof data != 'string') {
         return null;
-    }        
+    }    
     var extension = data.split('.').pop();
     for (var i = 0; i < value.length; i++) {
         if (value[i] === extension) {
@@ -76,7 +79,7 @@ tv4.defineKeyword('allowed_extensions', function (data, value, schema) {
 
 tv4.defineError('MAX_SIZE_ERROR', 10001, 'This file is too large. Maximum size allowed is {maxSize}.');
 tv4.defineKeyword('max_size', function (data, value, schema) {        
-    if(value == undefined || value == '') {
+    if(value == undefined || value == '' || typeof data != 'string') {
         return null;
     }    
     if(data < value) {
@@ -109,12 +112,13 @@ ngSchemaFormFileType.directive('ngSchemaFile', function($upload, $timeout) {
                 scope.model[key] = [];
                               
                 for(var i = 0; i < files.length; i++) {                    
-                    var file = files[i];                    
+                    var file = files[i];          
+                    
                     scope.generateThumb(file);                     
                     var extension = file.name.split('.').pop();
                         
                     scope.model[key].push({
-                        token: i,
+                        token: i.toString(),
                         extension: extension,
                         size: file.size
                     });
@@ -129,14 +133,15 @@ ngSchemaFormFileType.directive('ngSchemaFile', function($upload, $timeout) {
                         var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                         // console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
                         evt.config.file.filesProgress = progressPercentage;
-                    }).success(function (data, status, headers, config) {    
-                            
+                    }).success(function (data, status, headers, config) {                                
+                        
                         scope.model[key][data.index] = {
                             token: data.token,
                             extension: data.extension,
                             size: data.size
                         };
                         
+                       
                     });
 
                 }
@@ -146,10 +151,7 @@ ngSchemaFormFileType.directive('ngSchemaFile', function($upload, $timeout) {
                 }, 100);
                 
             };
-            
-            
-            
-            
+
             scope.generateThumb = function(file) {
                 if (file != null) {
                     if (scope.fileReaderSupported && file.type.indexOf('image') > -1) {
@@ -166,7 +168,12 @@ ngSchemaFormFileType.directive('ngSchemaFile', function($upload, $timeout) {
                 }
             };
             
-            
+            scope.deleteFile = function(files, index) {                
+                files.splice(index, 1);          
+                $timeout(function() {
+                    scope.$broadcast('schemaFormValidate');
+                }, 100);
+            };
 
         }
 

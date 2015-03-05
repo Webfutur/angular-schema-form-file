@@ -1,12 +1,12 @@
-<!--
+
 <style type="text/css">
     .file-objects .form-control-feedback,
     .file-objects label,
+    .file-objects legend,
     .file-objects input {
         display: none;
     }
 </style>
--->
 
 <div ng-schema-file ng-model="$$value$$" class="file-objects">
 
@@ -32,18 +32,19 @@
                 ng-repeat="item in modelArray track by $index">
 
                 <button ng-hide="form.readonly"
-                      ng-click="deleteFromArray($index)"
+                      ng-click="deleteFromArray($index); deleteFile(files, $index);"
                       style="position: relative; z-index: 20;"
                       type="button" class="close pull-right">
                       <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
                 </button>
 
                 <div class="media-left">
-                    <img class="media-object" ng-src="{{files[$index].dataUrl}}" alt="" style="max-width: 100px;">
+                    <img class="media-object" ng-src="{{files[$index].dataUrl}}" alt="" style="max-width: 100px;" ng-if="files[$index].dataUrl">
                 </div>
                 
                 <h5>
                     {{ files[$index].name }}
+                    {{ $index }}
                 </h5>
                 
                 <div class="progress" style="height: 20px;">

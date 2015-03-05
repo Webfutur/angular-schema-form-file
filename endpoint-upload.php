@@ -7,7 +7,7 @@ $index = $_POST['index'];
 
 $token = md5_file($file['tmp_name']);
 $size = filesize($file['tmp_name']);
-$extension = end(explode('.', $file['name']));;
+$extension = end(explode('.', $file['name']));
 
 
 

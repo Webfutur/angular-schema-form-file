@@ -64,13 +64,11 @@ tv4.defineKeyword('allowed_extensions', function (data, value, schema) {
     if(value == undefined || value == '' || typeof data != 'string') {
         return null;
     }    
-    var extension = data.split('.').pop();
-    for (var i = 0; i < value.length; i++) {
-        if (value[i] === extension) {
-            return null;
-        }
-    }
-    return {code: tv4.errorCodes.ALLOWED_EXTENSIONS_ERROR, message: {allowedExtensions: value.join(', ')}};         
+    if(validateExtension(data, value)) {
+        return null;
+    } else {
+        return {code: tv4.errorCodes.ALLOWED_EXTENSIONS_ERROR, message: {allowedExtensions: value.join(', ')}};      
+    }        
 });
 
 
@@ -90,7 +88,15 @@ tv4.defineKeyword('max_size', function (data, value, schema) {
 });
 
 
-
+function validateExtension(fileName, allowedExtensions) {
+    var extension = fileName.split('.').pop();
+    for (var i = 0; i < allowedExtensions.length; i++) {
+        if (allowedExtensions[i] === extension) {
+            return true;
+        }
+    }
+    return false;
+}
 
 
 
@@ -122,10 +128,10 @@ ngSchemaFormFileType.directive('ngSchemaFile', function($upload, $timeout) {
                         extension: extension,
                         size: file.size
                     });
-                    
-                    
-                    
 
+                    if(file.size > scope.form.schema.max_size || !validateExtension(file.name, scope.form.schema.allowed_extensions)) {
+                        continue;
+                    } 
                     
                     
 

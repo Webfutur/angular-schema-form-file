@@ -6,6 +6,9 @@
     .file-objects input {
         display: none;
     }
+    .hey {
+        transition: none;
+    }
 </style>
 
 <div ng-schema-file ng-model="$$value$$" class="file-objects">
@@ -53,6 +56,7 @@
                         aria-valuenow="{{ files[$index].filesProgress }}"
                         aria-valuemin="0"
                         aria-valuemax="100"
+                        ng-class="files[$index].filesProgress==100?'noProgressTransition':''"
                         style="width: {{ files[$index].filesProgress }}%">
                         {{ files[$index].filesProgress }}% Complete (success)
                     </div>

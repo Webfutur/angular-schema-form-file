@@ -101,7 +101,7 @@ function validateExtension(fileName, allowedExtensions) {
 
 
 
-ngSchemaFormFileType.directive('ngSchemaFile', function($upload, $timeout) {
+ngSchemaFormFileType.directive('ngSchemaFile', ['$upload', '$timeout', function($upload, $timeout) {
     return {
 		restrict: 'A',
         scope: true,
@@ -190,4 +190,4 @@ ngSchemaFormFileType.directive('ngSchemaFile', function($upload, $timeout) {
         }
 
 	};
-});
+}]);

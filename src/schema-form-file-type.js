@@ -5,8 +5,6 @@ var ngSchemaFormFileType = angular.module('ngSchemaFormFileType', [
 ]);
 
 
-
-
 angular.module('schemaForm').config(
 ['schemaFormProvider', 'schemaFormDecoratorsProvider', 'sfPathProvider',
     function(schemaFormProvider,  schemaFormDecoratorsProvider, sfPathProvider) {
@@ -14,7 +12,8 @@ angular.module('schemaForm').config(
         schemaFormDecoratorsProvider.addMapping(
             'bootstrapDecorator',
             'files',
-            'directives/decorators/bootstrap/files.html'
+            // 'src/directives/decorators/bootstrap/files.html'
+            'files.html'
         );
 
 

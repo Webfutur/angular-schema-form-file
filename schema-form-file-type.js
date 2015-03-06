@@ -79,7 +79,7 @@ tv4.defineKeyword('allowed_extensions', function (data, value, schema) {
 
 tv4.defineError('MAX_SIZE_ERROR', 10001, 'This file is too large. Maximum size allowed is {maxSize}.');
 tv4.defineKeyword('max_size', function (data, value, schema) {        
-    if(value == undefined || value == '' || typeof data != 'string') {
+    if(value == undefined || value == '' || typeof data != 'number') {
         return null;
     }    
     if(data < value) {
@@ -122,6 +122,12 @@ ngSchemaFormFileType.directive('ngSchemaFile', function($upload, $timeout) {
                         extension: extension,
                         size: file.size
                     });
+                    
+                    
+                    
+
+                    
+                    
 
                     $upload.upload({
                         url: scope.form.endpoint,

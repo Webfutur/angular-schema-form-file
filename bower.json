@@ -3,12 +3,24 @@
   "description": "Upload file type for Angular JSON form",
   "version": "0.0.1",
   "license": "MIT",
-  "private": true,
-  "keywords": ["angular-schema-form-add-on"],
+  "keywords": [
+    "angular-schema-form-add-on"
+  ],
   "dependencies": {
-      
     "angular": "*",
     "angular-schema-form": "*",
-    "tv4" : "1.1.9"
-  }
+    "tv4": "1.1.9"
+  },
+  "homepage": "https://github.com/Webfutur/angular-json-form-file-type",
+  "authors": [
+    "gpedelagrabe <gpedelagrabe@gmail.com>"
+  ],
+  "main": "index.html",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
 }

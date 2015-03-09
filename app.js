@@ -7,12 +7,12 @@ var myApp = angular.module('myApp', [
 
 
 
-
+tv4.language('fr-FR');
 
 // our controller for the form
 // =============================================================================
 myApp.controller('FormController', ['$scope', '$http', function($scope, $http) {
- 
+
         
     $http.get('schema.json').success(function(data) { 
         $scope.schema = data.schema;

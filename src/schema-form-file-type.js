@@ -70,9 +70,6 @@ tv4.defineKeyword('allowed_extensions', function (data, value, schema) {
 });
 
 
-
-
-
 tv4.defineError('MAX_SIZE_ERROR', 10001, 'This file is too large. Maximum size allowed is {maxSize}.');
 tv4.defineKeyword('max_size', function (data, value, schema) {        
     if(value == undefined || value == '' || typeof data != 'number') {

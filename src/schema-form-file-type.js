@@ -16,7 +16,6 @@ angular.module('schemaForm').config(
             'files.html'
         );
 
-
         
         var schemaFormatFileType = function(name, schema, options) {
             if (schema.type === 'array' && schema.format === 'files' ) {
@@ -100,7 +99,7 @@ function validateExtension(fileName, allowedExtensions) {
 
 
 
-ngSchemaFormFileType.directive('ngSchemaFile', ['$upload', '$timeout', function($upload, $timeout) {
+ngSchemaFormFileType.directive('ngSchemaFile', ['$upload', '$timeout', '$q', function($upload, $timeout, $q) {
     return {
 		restrict: 'A',
         scope: true,
@@ -117,53 +116,63 @@ ngSchemaFormFileType.directive('ngSchemaFile', ['$upload', '$timeout', function(
                 scope.model[key] = [];
                               
                 for(var i = 0; i < files.length; i++) {                    
-                    var file = files[i];          
-                    
-                    scope.generateThumb(file);                     
-                    var extension = file.name.split('.').pop();
+                    var file = files[i];                              
+                                       
+                    var extension = file.name.split('.').pop();                    
                         
                     scope.model[key].push({
                         token: i.toString(),
                         extension: extension,
-                        size: file.size
+                        size: file.size,
+                        name: file.name,
+                        progress: 0
+                    });
+                    
+                    scope.generateThumb(file, i).then(function(result) {
+                        scope.model[key][result.i].dataUrl = result.dataUrl;
                     });
 
                     if(file.size > scope.form.schema.max_size || !validateExtension(file.name, scope.form.schema.allowed_extensions)) {
                         continue;
-                    } 
+                    }
                     
-                    
-
-                    $upload.upload({
-                        url: scope.form.endpoint,
-                        file: file,
-                        fields: {
-                            index: i
-                        }
-                    }).progress(function (evt) {
-                        var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                        // console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
-                        evt.config.file.filesProgress = progressPercentage;
-                    }).success(function (data, status, headers, config) {                                
-                        
-                        scope.model[key][data.index] = {
-                            token: data.token,
-                            extension: data.extension,
-                            size: data.size
-                        };
-                        
-                       
+                    scope.uploadFile(file, key, i).then(function(data) {
+                        scope.model[key][data.index].token = data.token;
+                        scope.model[key][data.index].extension = data.extension;
+                        scope.model[key][data.index].size = data.size;
                     });
 
                 }
 
-                $timeout(function() {
-                    scope.$broadcast('schemaFormValidate');
-                }, 100);
+                scope.revalidate();
                 
             };
+            
+            scope.uploadFile = function(file, key, index) {
+                var deferred = $q.defer();
+                $upload.upload({
+                    url: scope.form.endpoint,
+                    file: file,
+                    fields: {
+                        index: index
+                    }
+                }).progress(function (evt) {
+                    var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                    // console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+                    evt.config.file.filesProgress = progressPercentage;
 
-            scope.generateThumb = function(file) {
+                    scope.model[key][evt.config.fields.index].progress = progressPercentage;
+
+                }).success(function (data, status, headers, config) {     
+
+                    deferred.resolve(data);
+                    
+                });
+                return deferred.promise;
+            };
+
+            scope.generateThumb = function(file, i) {
+                var deferred = $q.defer();
                 if (file != null) {
                     if (scope.fileReaderSupported && file.type.indexOf('image') > -1) {
                         $timeout(function() {
@@ -172,15 +181,16 @@ ngSchemaFormFileType.directive('ngSchemaFile', ['$upload', '$timeout', function(
                             fileReader.onload = function(e) {
                                 $timeout(function() {
                                     file.dataUrl = e.target.result;
+                                    deferred.resolve({dataUrl: file.dataUrl, i: i});
                                 });
                             };
                         });
                     }
                 }
+                return deferred.promise;
             };
             
-            scope.deleteFile = function(files, index) {                
-                files.splice(index, 1);          
+            scope.revalidate = function() {                
                 $timeout(function() {
                     scope.$broadcast('schemaFormValidate');
                 }, 100);

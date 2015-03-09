@@ -1,3 +1,4 @@
+
 <style type="text/css">.file-objects .form-control-feedback,.file-objects label,.file-objects legend,.file-objects input {display: none;}.noProgressTransition {transition: none;}</style>
 
 <div ng-schema-file ng-model="$$value$$" class="file-objects">
@@ -23,30 +24,29 @@
                 ng-repeat="item in modelArray track by $index">
 
                 <button ng-hide="form.readonly"
-                      ng-click="deleteFromArray($index); deleteFile(files, $index);"
+                      ng-click="deleteFromArray($index); revalidate();"
                       style="position: relative; z-index: 20;"
                       type="button" class="close pull-right">
                       <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
                 </button>
 
                 <div class="media-left">
-                    <img class="media-object" ng-src="{{files[$index].dataUrl}}" alt="" style="max-width: 100px;" ng-if="files[$index].dataUrl">
+                    <img class="media-object" ng-src="{{item.dataUrl}}" alt="" style="max-width: 100px;" ng-if="item.dataUrl">
                 </div>
                 
                 <h5>
-                    {{ files[$index].name }}
-                    {{ $index }}
+                    {{ item.name }}
                 </h5>
                 
                 <div class="progress" style="height: 20px;">
                     <div class="progress-bar progress-bar-success"
                         role="progressbar"
-                        aria-valuenow="{{ files[$index].filesProgress }}"
+                        aria-valuenow="{{ item.progress }}"
                         aria-valuemin="0"
                         aria-valuemax="100"
-                        ng-class="files[$index].filesProgress==100?'noProgressTransition':''"
-                        style="width: {{ files[$index].filesProgress }}%">
-                        {{ files[$index].filesProgress }}% Complete (success)
+                        ng-class="item.progress==100?'noProgressTransition':''"
+                        style="width: {{ item.progress }}%">
+                        {{ item.progress }}% Complete (success)
                     </div>
                 </div>
                 

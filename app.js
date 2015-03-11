@@ -5,10 +5,6 @@ var myApp = angular.module('myApp', [
     'ngSchemaFormFileType'
 ]);
 
-
-
-tv4.language('fr-FR');
-
 // our controller for the form
 // =============================================================================
 myApp.controller('FormController', ['$scope', '$http', function($scope, $http) {

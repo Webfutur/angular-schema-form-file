@@ -1,5 +1,5 @@
 {
-  "name": "leclub-ajf-upload",
+  "name": "angular-schema-file-type",
   "description": "Upload file type for Angular JSON form",
   "version": "0.0.1",
   "license": "MIT",
@@ -11,7 +11,7 @@
     "angular-schema-form": "*",
     "tv4": "1.1.9"
   },
-  "homepage": "https://github.com/Webfutur/angular-json-form-file-type",
+  "homepage": "https://github.com/guillbdx/angular-schema-file-type",
   "authors": [
     "gpedelagrabe <gpedelagrabe@gmail.com>"
   ],

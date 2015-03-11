@@ -1,5 +1,5 @@
 {
-  "name": "leclub-ajf-upload",
+  "name": "angular-schema-file-type",
   "version": "0.1.0",
   "devDependencies": {
     "grunt": "~0.4.5",
@@ -18,12 +18,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Webfutur/angular-json-form-file-type.git"
+    "url": "https://github.com/guillbdx/angular-schema-file-type.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Webfutur/angular-json-form-file-type/issues"
+    "url": "https://github.com/guillbdx/angular-schema-file-type/issues"
   },
-  "homepage": "https://github.com/Webfutur/angular-json-form-file-type"
+  "homepage": "https://github.com/guillbdx/angular-schema-file-type"
 }

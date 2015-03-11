@@ -1,0 +1,1 @@
+Angular schema file type

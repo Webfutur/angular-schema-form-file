@@ -9,7 +9,6 @@
                 "format" : "files",
                 "minItems": 1,
                 "maxItems": 2,
-                "allowed_extensions": ["jpg", "jpeg", "png"],
                 "items": {
                     "title" : "image",
                     "type" : "object",

@@ -19,34 +19,7 @@ angular.module('schemaForm').config(
         
         var schemaFormatFileType = function(name, schema, options) {
             if (schema.type === 'array' && schema.format === 'files' ) {
-                
-                
-                var itemsDef = {
-                    "title" : "image",
-                    "type" : "object",
-                    "properties": {
-                        "token" : {
-                            "title": "token",
-                            "type" : "string"
-                        },
-                        "extension" : {
-                            "title" : "Extension",
-                            "type" : "string",
-                            "allowed_extensions": [""]
-                        },
-                        "size" : {
-                            "title" : "Size",
-                            "type" : "number",
-                            "max_size" : 10000000
-                        }
-                    }
-                };
-                
-                itemsDef.properties.extension.allowed_extensions = schema.allowed_extensions;
-                itemsDef.properties.size.max_size = schema.max_size;
 
-                schema.items = itemsDef;
-   
             }
         };
 
@@ -55,43 +28,6 @@ angular.module('schemaForm').config(
     }
 ]);
 
-
-
-tv4.defineError('ALLOWED_EXTENSIONS_ERROR', 10000, 'Wrong file extension. Allowed extensions are {allowedExtensions}.');
-tv4.defineKeyword('allowed_extensions', function (data, value, schema) {     
-    if(value == undefined || value == '' || typeof data != 'string') {
-        return null;
-    }    
-    if(validateExtension(data, value)) {
-        return null;
-    } else {
-        return {code: tv4.errorCodes.ALLOWED_EXTENSIONS_ERROR, message: {allowedExtensions: value.join(', ')}};      
-    }        
-});
-
-
-tv4.defineError('MAX_SIZE_ERROR', 10001, 'This file is too large. Maximum size allowed is {maxSize}.');
-tv4.defineKeyword('max_size', function (data, value, schema) {        
-    if(value == undefined || value == '' || typeof data != 'number') {
-        return null;
-    }    
-    if(data < value) {
-        return null;
-    } else {
-        return {code: tv4.errorCodes.MAX_SIZE_ERROR, message: {fileName: data, maxSize: value}};
-    }
-});
-
-
-function validateExtension(fileName, allowedExtensions) {
-    var extension = fileName.split('.').pop();
-    for (var i = 0; i < allowedExtensions.length; i++) {
-        if (allowedExtensions[i] === extension) {
-            return true;
-        }
-    }
-    return false;
-}
 
 
 
@@ -128,10 +64,6 @@ ngSchemaFormFileType.directive('ngSchemaFile', ['$upload', '$timeout', '$q', fun
                     scope.generateThumb(file, i).then(function(result) {
                         scope.model[key][result.i].dataUrl = result.dataUrl;
                     });
-
-                    if(file.size > scope.form.schema.max_size || !validateExtension(file.name, scope.form.schema.allowed_extensions)) {
-                        continue;
-                    }
                     
                     scope.uploadFile(file, key, i).then(function(data) {
                         scope.model[key][data.index].token = data.token;

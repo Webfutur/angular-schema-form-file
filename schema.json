@@ -10,8 +10,29 @@
                 "minItems": 1,
                 "maxItems": 2,
                 "allowed_extensions": ["jpg", "jpeg", "png"],
-                "max_size" : 338311,
-                "items": {}
+                "items": {
+                    "title" : "image",
+                    "type" : "object",
+                    "properties": {
+                        "token" : {
+                            "title": "token",
+                            "type" : "string"
+                        },
+                        "extension" : {
+                            "title" : "Extension",
+                            "type" : "string",
+                            "enum" : [
+                                "jpg",
+                                "jpeg"
+                            ]
+                        },
+                        "size" : {
+                            "title" : "Size",
+                            "type" : "number",
+                            "maximum" : 338311
+                        }
+                    }
+                }
             },
             "yo" : {
                 "title" : "Yo",

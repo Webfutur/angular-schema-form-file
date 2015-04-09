@@ -38,7 +38,15 @@ angular.module('schemaForm').config(
 ]);
 
 
-
+function validateExtension(fileName, allowedExtensions) {
+    var extension = fileName.split('.').pop();
+    for (var i = 0; i < allowedExtensions.length; i++) {
+        if (allowedExtensions[i] === extension) {
+            return true;
+        }
+    }
+    return false;
+}
 
 
 ngSchemaFormFileType.directive('ngSchemaFile', ['$upload', '$timeout', '$q', function($upload, $timeout, $q) {
@@ -73,6 +81,14 @@ ngSchemaFormFileType.directive('ngSchemaFile', ['$upload', '$timeout', '$q', fun
                     scope.generateThumb(file, i).then(function(result) {
                         scope.model[key][result.i].dataUrl = result.dataUrl;
                     });
+
+                    // size and extensions                    
+                    if(scope.form.schema.items.properties.size !== undefined && scope.form.schema.items.properties.size.maximum !== undefined && scope.form.schema.items.properties.size.maximum < file.size) {
+                        continue;
+                    }                    
+                    if(scope.form.schema.items.properties.extension !== undefined && scope.form.schema.items.properties.extension.enum !== undefined && !validateExtension(file.name, scope.form.schema.items.properties.extension.enum)) {
+                        continue;
+                    } 
                     
                     scope.uploadFile(file, key, i).then(function(data) {
                         scope.model[key][data.index].token = data.token;

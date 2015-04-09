@@ -18,13 +18,22 @@ angular.module('schemaForm').config(
 
         
         var schemaFormatFileType = function(name, schema, options) {
-            if (schema.type === 'array' && schema.format === 'files' ) {
-
+            if (schema.type === 'array' && schema.format === 'files' ) {                
+                if(schema.items.properties.size.maximum !== undefined) {
+                    schema.items.properties.size.validationMessage = {
+                        "103": "This file is too large. Maximum size allowed is " + Math.floor(schema.items.properties.size.maximum/1000) + " ko."
+                    };
+                }                
+                if(schema.items.properties.extension.enum !== undefined) {
+                    schema.items.properties.extension.validationMessage = {
+                        "1": "Wrong file extension. Allowed extensions are " + schema.items.properties.extension.enum + "."
+                    };
+                }                
             }
         };
 
         schemaFormProvider.defaults.array.unshift(schemaFormatFileType);
-        
+
     }
 ]);
 

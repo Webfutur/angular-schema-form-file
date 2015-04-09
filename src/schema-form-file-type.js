@@ -28,7 +28,15 @@ angular.module('schemaForm').config(
                     schema.items.properties.extension.validationMessage = {
                         "1": "Wrong file extension. Allowed extensions are " + schema.items.properties.extension.enum + "."
                     };
-                }                
+                }      
+                
+                if(schema.maxItems !== undefined) {
+                    schema.validationMessage = {
+                        "401": "You can't upload more than " + schema.maxItems + " files."
+                    };
+                }
+
+                
             }
         };
 

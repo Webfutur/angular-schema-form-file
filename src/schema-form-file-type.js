@@ -69,26 +69,79 @@ ngSchemaFormFileType.directive('ngSchemaFile', ['$upload', '$timeout', '$q', fun
             
             scope.upload = function (files) {
                 
-                var key = scope.form.key[0];
                 
-                scope.model[key] = [];
+                
+                
+                
+                //---------------------------------------------------------
+                
+                if(scope.form.key.length == 1) {
+                    scope.model[scope.form.key[0]] = [];
+                } else {
+                    scope.model[scope.form.key[0]][scope.form.key[1]][scope.form.key[2]] = [];
+                }
+                //---------------------------------------------------------
+                
+                
+                
+                
+                
                               
                 for(var i = 0; i < files.length; i++) {                    
-                    var file = files[i];                              
+                    var file = files[i];                       
                                        
-                    var extension = file.name.split('.').pop();                    
-                        
-                    scope.model[key].push({
-                        token: i.toString(),
-                        extension: extension,
-                        size: file.size,
-                        name: file.name,
-                        progress: 0
-                    });
+                    var extension = file.name.split('.').pop();          
                     
-                    scope.generateThumb(file, i).then(function(result) {
-                        scope.model[key][result.i].dataUrl = result.dataUrl;
-                    });
+                    
+                    
+                    
+                    
+                        
+                        
+                    //---------------------------------------------------------
+                    if(scope.form.key.length == 1) {
+                        scope.model[scope.form.key[0]].push({
+                            token: i.toString(),
+                            extension: extension,
+                            size: file.size,
+                            name: file.name,
+                            progress: 0
+                        });
+                    } else {
+                        scope.model[scope.form.key[0]][scope.form.key[1]][scope.form.key[2]].push({
+                            token: i.toString(),
+                            extension: extension,
+                            size: file.size,
+                            name: file.name,
+                            progress: 0
+                        });
+                    }
+                    //---------------------------------------------------------
+                    
+                    
+                    
+                    
+                    //---------------------------------------------------------
+                    if(scope.form.key.length == 1) {
+                        scope.generateThumb(file, i).then(function(result) {
+                            scope.model[scope.form.key[0]][result.i].dataUrl = result.dataUrl;
+                        });
+                    } else {
+                        scope.generateThumb(file, i).then(function(result) {
+                            scope.model[scope.form.key[0]][scope.form.key[1]][scope.form.key[2]][result.i].dataUrl = result.dataUrl;
+                        });
+                    }
+                    //---------------------------------------------------------
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
 
                     // size and extensions                    
                     if(scope.form.schema.items.properties.size !== undefined && scope.form.schema.items.properties.size.maximum !== undefined && scope.form.schema.items.properties.size.maximum < file.size) {
@@ -98,11 +151,39 @@ ngSchemaFormFileType.directive('ngSchemaFile', ['$upload', '$timeout', '$q', fun
                         continue;
                     } 
                     
-                    scope.uploadFile(file, key, i).then(function(data) {
-                        scope.model[key][data.index].token = data.token;
-                        scope.model[key][data.index].extension = data.extension;
-                        scope.model[key][data.index].size = data.size;
-                    });
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+
+                    
+                    //---------------------------------------------------------
+                    if(scope.form.key.length == 1) {
+                        scope.uploadFile(file, scope.form.key, i).then(function(data) {
+                            scope.model[scope.form.key[0]][data.index].token = data.token;
+                            scope.model[scope.form.key[0]][data.index].extension = data.extension;
+                            scope.model[scope.form.key[0]][data.index].size = data.size;
+                        });
+                    } else {
+                        scope.uploadFile(file, scope.form.key, i).then(function(data) {
+                            scope.model[scope.form.key[0]][scope.form.key[1]][scope.form.key[2]][data.index].token = data.token;
+                            scope.model[scope.form.key[0]][scope.form.key[1]][scope.form.key[2]][data.index].extension = data.extension;
+                            scope.model[scope.form.key[0]][scope.form.key[1]][scope.form.key[2]][data.index].size = data.size;
+                        });
+                    }
+                    //---------------------------------------------------------
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
 
                 }
 
@@ -110,7 +191,8 @@ ngSchemaFormFileType.directive('ngSchemaFile', ['$upload', '$timeout', '$q', fun
                 
             };
             
-            scope.uploadFile = function(file, key, index) {
+            scope.uploadFile = function(file, key, index) {                
+                
                 var deferred = $q.defer();
                 $upload.upload({
                     url: scope.form.endpoint,
@@ -119,11 +201,35 @@ ngSchemaFormFileType.directive('ngSchemaFile', ['$upload', '$timeout', '$q', fun
                         index: index
                     }
                 }).progress(function (evt) {
+                    
+                    
                     var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                    // console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
                     evt.config.file.filesProgress = progressPercentage;
-
-                    scope.model[key][evt.config.fields.index].progress = progressPercentage;
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    //---------------------------------------------------------
+                    if(scope.form.key.length == 1) {
+                        scope.model[scope.form.key[0]][evt.config.fields.index].progress = progressPercentage;
+                    } else {
+                        scope.model[scope.form.key[0]][scope.form.key[1]][scope.form.key[2]][evt.config.fields.index].progress = progressPercentage;
+                    }                    
+                    //---------------------------------------------------------
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
 
                 }).success(function (data, status, headers, config) {     
 

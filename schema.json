@@ -28,7 +28,7 @@
                         "size" : {
                             "title" : "Size",
                             "type" : "number",
-                            "maximum" : 338311
+                            "maximum" : 338311000000
                         }
                     }
                 }

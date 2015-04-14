@@ -7,7 +7,7 @@ var myApp = angular.module('myApp', [
 
 // our controller for the form
 // =============================================================================
-myApp.controller('FormController', ['$scope', '$http', function($scope, $http) {
+myApp.controller('FormController', ['$scope', '$http', 'ImageUploadCleaner', function($scope, $http, ImageUploadCleaner) {
 
         
     $http.get('schema.json').success(function(data) { 
@@ -20,7 +20,15 @@ myApp.controller('FormController', ['$scope', '$http', function($scope, $http) {
     $scope.submit = function() {
         $scope.$broadcast('schemaFormValidate');
         if ($scope.myForm.$valid) {
+            
             console.log($scope.model);
+            
+            var newModel = ImageUploadCleaner.clean($scope.model);
+            
+            console.log(newModel);
+            
+            
+            
         }
     };
 

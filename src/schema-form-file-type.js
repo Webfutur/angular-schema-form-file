@@ -47,7 +47,22 @@ angular.module('schemaForm').config(
 ]);
 
 
-
+ngSchemaFormFileType.service('ImageUploadCleaner', function() {
+    this.clean = function(obj)
+    {
+        for (var k in obj)
+        {
+            if(obj[k].dataUrl != undefined) {
+                console.log('IMAGE :');
+                console.log(obj[k]);
+                obj[k] = obj[k].token;
+            } 
+            else if (typeof obj[k] == "object" && obj[k] !== null) {
+                    this.clean(obj[k]);
+            } 
+        }
+    };
+});
 
 
 ngSchemaFormFileType.directive('ngSchemaFile', ['$upload', '$timeout', '$q', function($upload, $timeout, $q) {

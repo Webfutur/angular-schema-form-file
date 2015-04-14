@@ -47,15 +47,7 @@ angular.module('schemaForm').config(
 ]);
 
 
-function validateExtension(fileName, allowedExtensions) {
-    var extension = fileName.split('.').pop();
-    for (var i = 0; i < allowedExtensions.length; i++) {
-        if (allowedExtensions[i] === extension) {
-            return true;
-        }
-    }
-    return false;
-}
+
 
 
 ngSchemaFormFileType.directive('ngSchemaFile', ['$upload', '$timeout', '$q', function($upload, $timeout, $q) {
@@ -80,6 +72,16 @@ ngSchemaFormFileType.directive('ngSchemaFile', ['$upload', '$timeout', '$q', fun
                 obj[keyPath[lastKeyIndex]] = value;
             };
             */
+           
+            scope.validateExtension = function(fileName, allowedExtensions) {
+                var extension = fileName.split('.').pop();
+                for (var i = 0; i < allowedExtensions.length; i++) {
+                    if (allowedExtensions[i] === extension) {
+                        return true;
+                    }
+                }
+                return false;
+            };
             
             scope.upload = function (files) {
                 
@@ -161,7 +163,7 @@ ngSchemaFormFileType.directive('ngSchemaFile', ['$upload', '$timeout', '$q', fun
                     if(scope.form.schema.items.properties.size !== undefined && scope.form.schema.items.properties.size.maximum !== undefined && scope.form.schema.items.properties.size.maximum < file.size) {
                         continue;
                     }                    
-                    if(scope.form.schema.items.properties.extension !== undefined && scope.form.schema.items.properties.extension.enum !== undefined && !validateExtension(file.name, scope.form.schema.items.properties.extension.enum)) {
+                    if(scope.form.schema.items.properties.extension !== undefined && scope.form.schema.items.properties.extension.enum !== undefined && !scope.validateExtension(file.name, scope.form.schema.items.properties.extension.enum)) {
                         continue;
                     } 
                     

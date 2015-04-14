@@ -18,25 +18,26 @@ angular.module('schemaForm').config(
 
         
         var schemaFormatFileType = function(name, schema, options) {
-            if (schema.type === 'array' && schema.format === 'files' ) {                
+            if (schema.type === 'array' && schema.format === 'files' ) {      
+                
                 if(schema.items.properties.size !== undefined && schema.items.properties.size.maximum !== undefined) {
                     schema.items.properties.size.validationMessage = {
                         "103": "This file is too large. Maximum size allowed is " + Math.floor(schema.items.properties.size.maximum/1000) + " ko."
                     };
                 }                
+                
                 if(schema.items.properties.extension !== undefined && schema.items.properties.extension.enum !== undefined) {
                     schema.items.properties.extension.validationMessage = {
                         "1": "Wrong file extension. Allowed extensions are " + schema.items.properties.extension.enum + "."
                     };
                 }      
-                
+               
                 if(schema.maxItems !== undefined) {
                     schema.validationMessage = {
                         "401": "You can't upload more than " + schema.maxItems + " files."
                     };
                 }
-
-                
+               
             }
         };
 
@@ -66,6 +67,19 @@ ngSchemaFormFileType.directive('ngSchemaFile', ['$upload', '$timeout', '$q', fun
         link: function(scope, element, attrs, ngModel) {
             
             scope.fileReaderSupported = window.FileReader != null && (window.FileAPI == null || FileAPI.html5 != false);
+            
+            /*
+            scope.assign = function (obj, keyPath, value) {
+                var lastKeyIndex = keyPath.length-1;
+                for (var i = 0; i < lastKeyIndex; ++ i) {
+                    var key = keyPath[i];
+                    if (!(key in obj))
+                        obj[key] = {}
+                    obj = obj[key];
+                }
+                obj[keyPath[lastKeyIndex]] = value;
+            };
+            */
             
             scope.upload = function (files) {
                 

@@ -83,7 +83,8 @@ ngSchemaFormFileType.service('ImageUploadCleaner', function() {
         throw new Error("Unable to copy obj! Its type isn't supported.");
     };
     
-    this.clean = function(obj)
+    
+    this.clean = function(obj, stringifyImages)
     {        
         for (var k in obj)
         {
@@ -95,6 +96,33 @@ ngSchemaFormFileType.service('ImageUploadCleaner', function() {
             } 
         }
     };
+    
+    
+
+   
+   
+   this.fullClean = function(obj, filesKeys) {
+       
+        for (var k in obj)
+        {
+            
+            if(filesKeys.indexOf(k) >= 0) {
+            
+                if(obj[k].length > 0) {
+                    obj[k] = obj[k][0].token;
+                } else {
+                    obj[k] = '';
+                }                
+            }
+            else if (typeof obj[k] == "object" && obj[k] !== null) {
+                    this.clean(obj[k]);
+            } 
+        }
+       
+   };
+    
+    
+    
 });
 
 

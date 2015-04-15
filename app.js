@@ -23,7 +23,7 @@ myApp.controller('FormController', ['$scope', '$http', 'ImageUploadCleaner', fun
             
             
             var modelClone = ImageUploadCleaner.clone($scope.model);            
-            ImageUploadCleaner.clean(modelClone);            
+            ImageUploadCleaner.fullClean(modelClone, ['images']);  
             console.log(modelClone);
             
             

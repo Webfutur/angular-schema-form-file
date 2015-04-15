@@ -21,12 +21,10 @@ myApp.controller('FormController', ['$scope', '$http', 'ImageUploadCleaner', fun
         $scope.$broadcast('schemaFormValidate');
         if ($scope.myForm.$valid) {
             
-            console.log($scope.model);
             
-            var newModel = ImageUploadCleaner.clean($scope.model);
-            
-            console.log(newModel);
-            
+            var modelClone = ImageUploadCleaner.clone($scope.model);            
+            ImageUploadCleaner.clean(modelClone);            
+            console.log(modelClone);
             
             
         }

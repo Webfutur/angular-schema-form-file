@@ -7,8 +7,8 @@
                 "title": "Images",
                 "type" : "array",
                 "format" : "files",
-                "minItems": 1,
-                "maxItems": 2,
+                "minItems": 2,
+                "maxItems": 3,
                 "items": {
                     "title" : "image",
                     "type" : "object",

@@ -30,10 +30,11 @@ angular.module('schemaForm').config(
                     schema.items.properties.extension.validationMessage = {
                         "1": "Wrong file extension. Allowed extensions are " + schema.items.properties.extension.enum + "."
                     };
-                }      
-               
-                if(schema.maxItems !== undefined) {
+                }     
+                
+                if(schema.minItems !== undefined) {
                     schema.validationMessage = {
+                        "400": "You have to upload at least " + schema.minItems + " files.",
                         "401": "You can't upload more than " + schema.maxItems + " files."
                     };
                 }
@@ -161,8 +162,7 @@ ngSchemaFormFileType.directive('ngSchemaFile', ['$upload', '$timeout', '$q', fun
             
             scope.upload = function (files) {
                 
-                
-                
+               
                 
                 
                 //---------------------------------------------------------
@@ -284,6 +284,7 @@ ngSchemaFormFileType.directive('ngSchemaFile', ['$upload', '$timeout', '$q', fun
             };
             
             scope.uploadFile = function(file, key, index) {                
+                
                 
                 var deferred = $q.defer();
                 $upload.upload({

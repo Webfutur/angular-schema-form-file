@@ -1,5 +1,4 @@
 <?php
-
 $file = $_FILES['file'];
 $index = $_POST['index'];
 

@@ -1,5 +1,5 @@
 
-<style type="text/css">.file-objects .form-control-feedback,.file-objects label,.file-objects legend,.file-objects select, .file-objects input {display: none;}.noProgressTransition {transition: none;}</style>
+<style type="text/css">.file-objects .form-control-feedback,  .file-objects li label,.file-objects legend,.file-objects select, .file-objects input {display: none;}.noProgressTransition {transition: none;}</style>
 
 <div ng-schema-file ng-model="$$value$$" class="file-objects">
 
@@ -8,8 +8,12 @@
          ng-model="$$value$$"
          ng-model-options="form.ngModelOptions">
         
-        <h3 ng-show="form.title && form.notitle !== true">{{ form.title }}</h3>
+        <label ng-show="form.title && form.notitle !== true" class="control-label" ng-class="{'sr-only': !showTitle()}">
+            {{ form.title }}
+        </label>
 
+        <br>
+        
         <div class="btn btn-default"
              ng-model="files"
              ng-file-select
@@ -53,7 +57,7 @@
               <sf-decorator ng-init="arrayIndex = $index" form="copyWithIndex($index)"></sf-decorator>
 
             </li>
-      </ol>
+          </ol>
 
         <div class="help-block" style="color: #e74c3c;"
              ng-show="(hasError() && errorMessage(schemaError())) || form.description"

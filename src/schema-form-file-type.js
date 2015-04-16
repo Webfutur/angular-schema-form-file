@@ -32,10 +32,11 @@ angular.module('schemaForm').config(
                     };
                 }     
                 
-                if(schema.minItems !== undefined) {
+                if(schema.minItems !== undefined && schema.maxItems !== undefined) {
                     schema.validationMessage = {
                         "400": "You have to upload at least " + schema.minItems + " files.",
-                        "401": "You can't upload more than " + schema.maxItems + " files."
+                        "401": "You can't upload more than " + schema.maxItems + " files.",
+                        "302": "File(s) missing."
                     };
                 }
                

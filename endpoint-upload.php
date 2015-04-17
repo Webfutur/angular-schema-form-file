@@ -6,7 +6,10 @@ $index = $_POST['index'];
 
 $token = md5_file($file['tmp_name']);
 $size = filesize($file['tmp_name']);
-$extension = substr($file['name'], strrpos($file['name'], '.')+1);
+
+$finfo = finfo_open(FILEINFO_MIME_TYPE);
+$extension = finfo_file($finfo, $file['tmp_name']);
+finfo_close($finfo);
 
 
 

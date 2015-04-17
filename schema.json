@@ -21,8 +21,8 @@
                             "title" : "Extension",
                             "type" : "string",
                             "enum" : [
-                                "jpg",
-                                "jpeg"
+                                "image/jpeg",
+                                "image/png"
                             ]
                         },
                         "size" : {

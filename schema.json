@@ -17,8 +17,8 @@
                             "title": "token",
                             "type" : "string"
                         },
-                        "extension" : {
-                            "title" : "Extension",
+                        "mimeType" : {
+                            "title" : "MIME Type",
                             "type" : "string",
                             "enum" : [
                                 "image/jpeg",

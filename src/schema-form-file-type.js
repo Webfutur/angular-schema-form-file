@@ -26,9 +26,9 @@ angular.module('schemaForm').config(
                     };
                 }                
                 
-                if(schema.items.properties.extension !== undefined && schema.items.properties.extension.enum !== undefined) {
-                    schema.items.properties.extension.validationMessage = {
-                        "1": "Wrong file extension. Allowed extensions are " + schema.items.properties.extension.enum + "."
+                if(schema.items.properties.mimeType !== undefined && schema.items.properties.mimeType.enum !== undefined) {
+                    schema.items.properties.mimeType.validationMessage = {
+                        "1": "Wrong file type. Allowed types are " + schema.items.properties.mimeType.enum + "."
                     };
                 }     
                 
@@ -138,28 +138,6 @@ ngSchemaFormFileType.directive('ngSchemaFile', ['$upload', '$timeout', '$q', fun
             
             scope.fileReaderSupported = window.FileReader != null && (window.FileAPI == null || FileAPI.html5 != false);
             
-            /*
-            scope.assign = function (obj, keyPath, value) {
-                var lastKeyIndex = keyPath.length-1;
-                for (var i = 0; i < lastKeyIndex; ++ i) {
-                    var key = keyPath[i];
-                    if (!(key in obj))
-                        obj[key] = {}
-                    obj = obj[key];
-                }
-                obj[keyPath[lastKeyIndex]] = value;
-            };
-            */
-           
-            scope.validateExtension = function(fileName, allowedExtensions) {
-                var extension = fileName.split('.').pop();
-                for (var i = 0; i < allowedExtensions.length; i++) {
-                    if (allowedExtensions[i] === extension) {
-                        return true;
-                    }
-                }
-                return false;
-            };
             
             scope.upload = function (files) {
                 
@@ -195,7 +173,7 @@ ngSchemaFormFileType.directive('ngSchemaFile', ['$upload', '$timeout', '$q', fun
                     if(scope.form.key.length == 1) {
                         scope.model[scope.form.key[0]].push({
                             token: i.toString(),
-                            extension: file.type,
+                            mimeType: file.type,
                             size: file.size,
                             name: file.name,
                             progress: 0
@@ -203,7 +181,7 @@ ngSchemaFormFileType.directive('ngSchemaFile', ['$upload', '$timeout', '$q', fun
                     } else {
                         scope.model[scope.form.key[0]][scope.form.key[1]][scope.form.key[2]].push({
                             token: i.toString(),
-                            extension: file.type,
+                            mimeType: file.type,
                             size: file.size,
                             name: file.name,
                             progress: 0
@@ -236,11 +214,11 @@ ngSchemaFormFileType.directive('ngSchemaFile', ['$upload', '$timeout', '$q', fun
                     
                     
 
-                    // size and extensions                    
+                    // size and mime types        
                     if(scope.form.schema.items.properties.size !== undefined && scope.form.schema.items.properties.size.maximum !== undefined && scope.form.schema.items.properties.size.maximum < file.size) {
                         continue;
-                    }                    
-                    if(scope.form.schema.items.properties.extension !== undefined && scope.form.schema.items.properties.extension.enum !== undefined && !scope.validateExtension(file.name, scope.form.schema.items.properties.extension.enum)) {
+                    }             
+                    if(scope.form.schema.items.properties.mimeType !== undefined && scope.form.schema.items.properties.mimeType.enum !== undefined && scope.form.schema.items.properties.mimeType.enum.indexOf(file.type) == -1) {
                         continue;
                     } 
                     
@@ -258,13 +236,13 @@ ngSchemaFormFileType.directive('ngSchemaFile', ['$upload', '$timeout', '$q', fun
                     if(scope.form.key.length == 1) {
                         scope.uploadFile(file, scope.form.key, i).then(function(data) {
                             scope.model[scope.form.key[0]][data.index].token = data.token;
-                            scope.model[scope.form.key[0]][data.index].extension = data.extension;
+                            scope.model[scope.form.key[0]][data.index].mimeType = data.mimeType;
                             scope.model[scope.form.key[0]][data.index].size = data.size;
                         });
                     } else {
                         scope.uploadFile(file, scope.form.key, i).then(function(data) {
                             scope.model[scope.form.key[0]][scope.form.key[1]][scope.form.key[2]][data.index].token = data.token;
-                            scope.model[scope.form.key[0]][scope.form.key[1]][scope.form.key[2]][data.index].extension = data.extension;
+                            scope.model[scope.form.key[0]][scope.form.key[1]][scope.form.key[2]][data.index].mimeType = data.mimeType;
                             scope.model[scope.form.key[0]][scope.form.key[1]][scope.form.key[2]][data.index].size = data.size;
                         });
                     }

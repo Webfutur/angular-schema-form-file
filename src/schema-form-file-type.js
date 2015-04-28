@@ -141,15 +141,24 @@ ngSchemaFormFileType.directive('ngSchemaFile', ['$upload', '$timeout', '$q', fun
             
             scope.upload = function (files) {
                 
-               
                 
                 
                 //---------------------------------------------------------
                 
                 if(scope.form.key.length == 1) {
                     scope.model[scope.form.key[0]] = [];
-                } else {
+                } 
+                else if(scope.form.key.length == 2) {
+                    scope.model[scope.form.key[0]][scope.form.key[1]] = [];
+                }
+                else if(scope.form.key.length == 3) {
                     scope.model[scope.form.key[0]][scope.form.key[1]][scope.form.key[2]] = [];
+                }                
+                else if(scope.form.key.length == 4) {
+                    scope.model[scope.form.key[0]][scope.form.key[1]][scope.form.key[2]][scope.form.key[3]] = [];
+                }
+                else {
+                    console.log('Error');
                 }
                 //---------------------------------------------------------
                 
@@ -169,7 +178,7 @@ ngSchemaFormFileType.directive('ngSchemaFile', ['$upload', '$timeout', '$q', fun
                     
                         
                         
-                    //---------------------------------------------------------
+                    //---------------------------------------------------------                    
                     if(scope.form.key.length == 1) {
                         scope.model[scope.form.key[0]].push({
                             token: i.toString(),
@@ -178,8 +187,9 @@ ngSchemaFormFileType.directive('ngSchemaFile', ['$upload', '$timeout', '$q', fun
                             name: file.name,
                             progress: 0
                         });
-                    } else {
-                        scope.model[scope.form.key[0]][scope.form.key[1]][scope.form.key[2]].push({
+                    } 
+                    else if(scope.form.key.length == 2) {
+                        scope.model[scope.form.key[0]][scope.form.key[1]].push({
                             token: i.toString(),
                             mimeType: file.type,
                             size: file.size,
@@ -187,20 +197,55 @@ ngSchemaFormFileType.directive('ngSchemaFile', ['$upload', '$timeout', '$q', fun
                             progress: 0
                         });
                     }
+                    else if(scope.form.key.length == 3) {
+                        scope.model[scope.form.key[0]][scope.form.key[1]][scope.form.key[2]].push({
+                            token: i.toString(),
+                            mimeType: file.type,
+                            size: file.size,
+                            name: file.name,
+                            progress: 0
+                        });
+                    }                
+                    else if(scope.form.key.length == 4) {
+                        scope.model[scope.form.key[0]][scope.form.key[1]][scope.form.key[2]][scope.form.key[3]].push({
+                            token: i.toString(),
+                            mimeType: file.type,
+                            size: file.size,
+                            name: file.name,
+                            progress: 0
+                        });
+                    }
+                    else {
+                        console.log('Error');
+                    }                    
                     //---------------------------------------------------------
                     
                     
                     
                     
-                    //---------------------------------------------------------
+                    //---------------------------------------------------------                                        
                     if(scope.form.key.length == 1) {
                         scope.generateThumb(file, i).then(function(result) {
                             scope.model[scope.form.key[0]][result.i].dataUrl = result.dataUrl;
                         });
-                    } else {
+                    } 
+                    else if(scope.form.key.length == 2) {
+                        scope.generateThumb(file, i).then(function(result) {
+                            scope.model[scope.form.key[0]][scope.form.key[1]][result.i].dataUrl = result.dataUrl;
+                        });
+                    }
+                    else if(scope.form.key.length == 3) {
                         scope.generateThumb(file, i).then(function(result) {
                             scope.model[scope.form.key[0]][scope.form.key[1]][scope.form.key[2]][result.i].dataUrl = result.dataUrl;
                         });
+                    }                
+                    else if(scope.form.key.length == 4) {
+                        scope.generateThumb(file, i).then(function(result) {
+                            scope.model[scope.form.key[0]][scope.form.key[1]][scope.form.key[2]][scope.form.key[3]][result.i].dataUrl = result.dataUrl;
+                        });
+                    }
+                    else {
+                        console.log('Error');
                     }
                     //---------------------------------------------------------
                     
@@ -232,19 +277,37 @@ ngSchemaFormFileType.directive('ngSchemaFile', ['$upload', '$timeout', '$q', fun
                     
 
                     
-                    //---------------------------------------------------------
+                    //---------------------------------------------------------                    
                     if(scope.form.key.length == 1) {
                         scope.uploadFile(file, scope.form.key, i).then(function(data) {
                             scope.model[scope.form.key[0]][data.index].token = data.token;
                             scope.model[scope.form.key[0]][data.index].mimeType = data.mimeType;
                             scope.model[scope.form.key[0]][data.index].size = data.size;
                         });
-                    } else {
+                    } 
+                    else if(scope.form.key.length == 2) {
+                        scope.uploadFile(file, scope.form.key, i).then(function(data) {
+                            scope.model[scope.form.key[0]][scope.form.key[1]][data.index].token = data.token;
+                            scope.model[scope.form.key[0]][scope.form.key[1]][data.index].mimeType = data.mimeType;
+                            scope.model[scope.form.key[0]][scope.form.key[1]][data.index].size = data.size;
+                        });
+                    }
+                    else if(scope.form.key.length == 3) {
                         scope.uploadFile(file, scope.form.key, i).then(function(data) {
                             scope.model[scope.form.key[0]][scope.form.key[1]][scope.form.key[2]][data.index].token = data.token;
                             scope.model[scope.form.key[0]][scope.form.key[1]][scope.form.key[2]][data.index].mimeType = data.mimeType;
                             scope.model[scope.form.key[0]][scope.form.key[1]][scope.form.key[2]][data.index].size = data.size;
                         });
+                    }                
+                    else if(scope.form.key.length == 4) {
+                        scope.uploadFile(file, scope.form.key, i).then(function(data) {
+                            scope.model[scope.form.key[0]][scope.form.key[1]][scope.form.key[2]][scope.form.key[3]][data.index].token = data.token;
+                            scope.model[scope.form.key[0]][scope.form.key[1]][scope.form.key[2]][scope.form.key[3]][data.index].mimeType = data.mimeType;
+                            scope.model[scope.form.key[0]][scope.form.key[1]][scope.form.key[2]][scope.form.key[3]][data.index].size = data.size;
+                        });
+                    }
+                    else {
+                        console.log('Error');
                     }
                     //---------------------------------------------------------
                     
@@ -286,12 +349,23 @@ ngSchemaFormFileType.directive('ngSchemaFile', ['$upload', '$timeout', '$q', fun
                     
                     
                     
-                    //---------------------------------------------------------
+                    //---------------------------------------------------------                 
+                    
                     if(scope.form.key.length == 1) {
                         scope.model[scope.form.key[0]][evt.config.fields.index].progress = progressPercentage;
-                    } else {
+                    } 
+                    else if(scope.form.key.length == 2) {
+                        scope.model[scope.form.key[0]][scope.form.key[1]][evt.config.fields.index].progress = progressPercentage;
+                    }
+                    else if(scope.form.key.length == 3) {
                         scope.model[scope.form.key[0]][scope.form.key[1]][scope.form.key[2]][evt.config.fields.index].progress = progressPercentage;
-                    }                    
+                    }                
+                    else if(scope.form.key.length == 4) {
+                        scope.model[scope.form.key[0]][scope.form.key[1]][scope.form.key[2]][scope.form.key[3]][evt.config.fields.index].progress = progressPercentage;
+                    }
+                    else {
+                        console.log('Error');
+                    }
                     //---------------------------------------------------------
                     
                     
